@@ -28,6 +28,8 @@ Rscript  ${main}/running.scripts/phantompeakqualtools/run_spp_nodups.R -c=${main
 -savp -rf -p=4 -odir=05phantompeakqual  -out=${main}/05.phantompeakqual/{sample}_phantom.txt -tmpdir=${main}/05.phantompeakqual 2> ${main}/00.log/${sample}.phantompeakqual.log
 
 
+#######new
+
 EOM
 
 #bash $i.bowtie.run.sh

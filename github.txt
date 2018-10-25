@@ -1,0 +1,5 @@
+git pull origin master
+git push -u origin mater
+git add file
+git rm file
+git commit -m "something"

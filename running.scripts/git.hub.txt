@@ -1,0 +1,4 @@
+cd /home/exx/Documents/bash_flow-CHIPseq-master
+git init
+
+git clone /home/exx/Documents/tem

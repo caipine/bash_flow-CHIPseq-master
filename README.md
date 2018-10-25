@@ -1,11 +1,8 @@
 # bash_flow-CHIPseq-master
 
-# bash_flow-CHIPseq-master
-
-
 installation CHIPseq analysis related software in CentOS 7
 
-# install MACS1 and MACS2 through python-pip
+### install MACS1 and MACS2 through python-pip
 
 curl "https://bootstrap.pypa.io/get-pip.py" -o "get-pip.py"
 python get-pip.py

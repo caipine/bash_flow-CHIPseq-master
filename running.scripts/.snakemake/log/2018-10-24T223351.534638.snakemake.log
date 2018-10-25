@@ -1,0 +1,12 @@
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	call_peaks_macs1
+	1
+
+[Wed Oct 24 22:33:51 2018]
+Job 0: call_peaks macs14 /home/exx/Documents/bash_flow-CHIPseq-master/04.aln_downsample/SRR2518124-downsample.sorted.bam /home/exx/Documents/bash_flow-CHIPseq-master/04.aln_downsample/SRR2518123-downsample.sorted.bam: 1 threads
+

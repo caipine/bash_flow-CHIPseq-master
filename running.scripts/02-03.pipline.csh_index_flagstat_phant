@@ -1,0 +1,31 @@
+#!/bin/csh -f
+
+source 00.source.txt
+
+echo "workingdir" $main 
+
+cd  ${main}/running.scripts
+
+foreach sample ("`cat sample.list`")
+echo $sample
+cat <<EOM > "${sample}.bowtie.run.sh"
+
+#index
+samtools index ${main}/03.aln/${sample}.sorted.bam 2> ${main}/00.log/${sample}.index.log
+
+#flagstat_bam
+samtools flagstat ${main}/03.aln/${sample}.sorted.bam > ${main}/03.aln/${sample}.sorted.bam.flagstat 2> ${main}/00.log/${sample}.flagstat.log
+
+#
+Rscript  ${main}/running.scripts/phantompeakqualtools/run_spp_nodups.R -c=${main}/03.aln/{sample}.sorted.bam ${main}/03.aln/{sample}.sorted.bam.bai \
+-savp -rf -p=4 -odir=05phantompeakqual  -out=${main}/05.phantompeakqual/{sample}_phantom.txt -tmpdir=${main}/05.phantompeakqual 2> ${main}/00.log/${sample}.phantompeakqual.log
+
+
+#######new
+
+EOM
+
+bash ${sample}.bowtie.run.sh
+end
+
+

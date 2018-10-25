@@ -1,0 +1,35 @@
+#!/bin/csh -f
+
+source 00.source.txt
+
+echo "workingdir" $main 
+
+cd  ${main}/running.scripts
+
+foreach sample ("`cat sample.list`")
+echo $sample
+cat <<EOM > "${sample}.multiQC.snakefile"
+
+rule multiQC:
+    input :
+        expand("$main/00.log/${sample}.align", sample = ALL_SAMPLES),
+        expand("$main/03.aln/${sample}.sorted.bam.flagstat", sample = ALL_SAMPLES),
+        expand("$main/02.fqc/${sample}_fastqc.zip", sample = ALL_SAMPLES)
+    output: "$main/10.multiQC/multiQC_log.html"
+    log: "$main/00.log/multiqc.log"
+    message: "multiqc for all logs"
+    shell:
+        """
+        multiqc $main/$02.fqc $main/$03.aln $main/$00.log -o $main/$10.multiQC -d -f -v -n multiQC_log 2> {log}
+
+        """
+
+
+
+
+
+EOM
+
+snakemake --snakefile ${sample}.multiQC.snakefile
+end
+

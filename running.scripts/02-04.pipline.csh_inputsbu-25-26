@@ -1,0 +1,31 @@
+#!/bin/csh -f
+
+source 00.source.txt
+
+echo "workingdir" $main 
+
+cd  ${main}/running.scripts
+
+
+cat <<EOM > "make_inputSubtract_bigwigs.snakefile_25-26"
+
+rule make_inputSubtract_bigwigs:
+    input : "$main/04.aln_downsample/SRR2518126-downsample.sorted.bam", "$main/04.aln_downsample/SRR2518125-downsample.sorted.bam", "$main/04.aln_downsample/SRR2518126-downsample.sorted.bam.bai", "$main/04.aln_downsample/SRR2518125-downsample.sorted.bam.bai"
+    output:  "$main/06.bigwig_inputSubtract/SRR2518125_subtract_SRR2518126.bw"
+    log: "$main/00.log/SRR2518126_inputSubtract.makebw"
+    threads: 5
+    params: jobname = "SRR2518126"
+    message: "making input subtracted bigwig for {input}"
+    shell:
+        """
+	source activate root
+        bamCompare --bamfile1 {input[1]} --bamfile2 {input[0]}  --binSize 30 --smoothLength 300 -p 5  --extendReads 200 -o {output} 2> {log}
+
+        """
+
+
+EOM
+
+snakemake --snakefile make_inputSubtract_bigwigs.snakefile_25-26
+
+

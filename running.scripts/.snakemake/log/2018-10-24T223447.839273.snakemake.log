@@ -1,0 +1,21 @@
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	call_peaks_macs1
+	1
+
+[Wed Oct 24 22:34:47 2018]
+Job 0: call_peaks macs14 /home/exx/Documents/bash_flow-CHIPseq-master/04.aln_downsample/SRR2518124-downsample.sorted.bam /home/exx/Documents/bash_flow-CHIPseq-master/04.aln_downsample/SRR2518123-downsample.sorted.bam: 1 threads
+
+Waiting at most 5 seconds for missing files.
+MissingOutputException in line 3 of /home/exx/Documents/bash_flow-CHIPseq-master/running.scripts/snakemake_call_peaks.snakefile_23-24:
+Missing files after 5 seconds:
+/home/exx/Documents/bash_flow-CHIPseq-master/08.peak_macs1/SRR2518123_vs_SRR2518124_macs1_peaks.bed
+/home/exx/Documents/bash_flow-CHIPseq-master/08.peak_macs1/SRR2518123_vs_SRR2518124_macs1_nomodel_peaks.bed
+This might be due to filesystem latency. If that is the case, consider to increase the wait time with --latency-wait.
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: /home/exx/Documents/bash_flow-CHIPseq-master/running.scripts/.snakemake/log/2018-10-24T223447.839273.snakemake.log

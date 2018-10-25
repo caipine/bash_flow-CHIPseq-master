@@ -1,0 +1,16 @@
+
+rule make_inputSubtract_bigwigs:
+    input : "/home/exx/Documents/bash_flow-CHIPseq-master/04.aln_downsample/SRR2518124-downsample.sorted.bam", "/home/exx/Documents/bash_flow-CHIPseq-master/04.aln_downsample/SRR2518123-downsample.sorted.bam", "/home/exx/Documents/bash_flow-CHIPseq-master/04.aln_downsample/SRR2518124-downsample.sorted.bam.bai", "/home/exx/Documents/bash_flow-CHIPseq-master/04.aln_downsample/SRR2518123-downsample.sorted.bam.bai"
+    output:  "/home/exx/Documents/bash_flow-CHIPseq-master/06.bigwig_inputSubtract/SRR2518123_subtract_SRR2518124.bw"
+    log: "/home/exx/Documents/bash_flow-CHIPseq-master/00.log/SRR2518124_inputSubtract.makebw"
+    threads: 5
+    params: jobname = "SRR2518124"
+    message: "making input subtracted bigwig for {input}"
+    shell:
+        """
+	source activate root
+        bamCompare --bamfile1 {input[1]} --bamfile2 {input[0]}  --binSize 30 --smoothLength 300 -p 5  --extendReads 200 -o {output} 2> {log}
+
+        """
+
+

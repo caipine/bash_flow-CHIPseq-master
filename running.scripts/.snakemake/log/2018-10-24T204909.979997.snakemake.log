@@ -1,0 +1,16 @@
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	down_sample
+	1
+
+[Wed Oct 24 20:49:10 2018]
+Job 0: downsampling for /home/exx/Documents/bash_flow-CHIPseq-master/03.aln/SRR2518125.sorted.bam /home/exx/Documents/bash_flow-CHIPseq-master/03.aln/SRR2518125.sorted.bam.bai /home/exx/Documents/bash_flow-CHIPseq-master/03.aln/SRR2518125.sorted.bam.flagstat
+
+[Wed Oct 24 20:50:18 2018]
+Finished job 0.
+1 of 1 steps (100%) done
+Complete log: /home/exx/Documents/bash_flow-CHIPseq-master/running.scripts/.snakemake/log/2018-10-24T204909.979997.snakemake.log

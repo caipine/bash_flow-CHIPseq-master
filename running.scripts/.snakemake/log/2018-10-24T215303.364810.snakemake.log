@@ -1,0 +1,16 @@
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	make_bigwigs
+	1
+
+[Wed Oct 24 21:53:03 2018]
+Job 0: making bigwig for /home/exx/Documents/bash_flow-CHIPseq-master/04.aln_downsample/SRR2518123-downsample.sorted.bam /home/exx/Documents/bash_flow-CHIPseq-master/04.aln_downsample/SRR2518123-downsample.sorted.bam.bai
+
+[Wed Oct 24 22:04:34 2018]
+Finished job 0.
+1 of 1 steps (100%) done
+Complete log: /home/exx/Documents/bash_flow-CHIPseq-master/running.scripts/.snakemake/log/2018-10-24T215303.364810.snakemake.log

@@ -1,0 +1,64 @@
+#!/bin/csh -f
+
+source 00.source.txt
+
+echo "workingdir" $main 
+
+cd  ${main}/running.scripts
+
+
+cat <<EOM > "snakemake_call_peaks.snakefile_23-24"
+
+
+rule call_peaks_macs1:
+    input: control = "$main/04.aln_downsample/SRR2518124-downsample.sorted.bam", case="$main/04.aln_downsample/SRR2518123-downsample.sorted.bam"
+    output: "$main/08.peak_macs1/SRR2518123_vs_SRR2518124_macs1_peaks.bed", "$main/08.peak_macs1/SRR2518123_vs_SRR2518124_macs1_nomodel_peaks.bed"
+    log:
+        macs1 = "$main/00.log/SRR2518123_vs_SRR2518124_call_peaks_macs1.log",
+        macs1_nomodel = "$main/00.log/SRR2518123_vs_SRR2518124_call_peaks_macs1_nomodel.log"
+    params:
+        name1 = "SRR2518123_vs_SRR2518124_macs1",
+        name2 = "SRR2518123_vs_SRR2518124_macs1_nomodel",
+        jobname = "SRR2518123"
+    message: "call_peaks macs14 {input}: {threads} threads"
+    shell:
+        """
+	   source activate root
+        macs14 -t {input.case} \
+            -c {input.control} --keep-dup all -f BAM -g hs \
+            -n {params.name1} -p 1e-5 &> {log.macs1}
+
+        # nomodel for macs14, shift-size will be 100 bp (e.g. fragment length of 200bp)
+        # can get fragment length from the phantompeakqual. Now set it to 200 bp for all.
+        macs14 -t {input.case} \
+            -c {input.control} --keep-dup all -f BAM -g hs \
+            -n {params.name2} --nomodel -p 1e-5 &> {log.macs1_nomodel}
+        """
+rule call_peaks_macs2:
+    input: control = "$main/04.aln_downsample/SRR2518124-downsample.sorted.bam", case="$main/04.aln_downsample/SRR2518123-downsample.sorted.bam"
+    output: bed = "$main/09.peak_macs2/SRR2518123_vs_SRR2518124_macs2_peaks.xls"
+    log: "$main/00.log/SRR2518123_vs_SRR2518124_call_peaks_macs2.log"
+    params:
+        name = "SRR2518123_vs_SRR2518124_macs2",
+        jobname = "SRR2518123"
+    message: "call_peaks macs2 {input}: {threads} threads"
+    shell:
+        """
+       source activate root
+       ## for macs2, when nomodel is set, --extsize is default to 200bp, this is the same as 2 * shift-size in macs14.
+        macs2 callpeak -t {input.case} \
+            -c {input.control} --keep-dup all -f BAM -g hs \
+             -n {params.name} -p 1e-5 --broad --broad-cutoff 1e-5 --nomodel &> {log}
+        """
+
+
+
+
+
+
+
+EOM
+
+snakemake --snakefile snakemake_call_peaks.snakefile_23-24
+
+

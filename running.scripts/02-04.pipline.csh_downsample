@@ -1,0 +1,43 @@
+#!/bin/csh -f
+
+source 00.source.txt
+
+echo "workingdir" $main 
+
+cd  ${main}/running.scripts
+
+foreach sample ("`cat sample.list`")
+echo $sample
+cat <<EOM > "${sample}.downsample.snakefile"
+
+rule down_sample:
+    input: "$main/03.aln/${sample}.sorted.bam", "$main/03.aln/${sample}.sorted.bam.bai", "$main/03.aln/${sample}.sorted.bam.flagstat"
+    output: "$main/04.aln_downsample/${sample}-downsample.sorted.bam", "$main/04.aln_downsample/${sample}-downsample.sorted.bam.bai"
+    log: "$main/00.log/${sample}_downsample.log"
+    threads: 16
+    params: jobname = "${sample}"
+    message: "downsampling for {input}"
+    run:
+        import re
+        import subprocess
+        with open (input[2], "r") as f:
+            # fifth line contains the number of mapped reads
+            line = f.readlines()[4]
+            match_number = re.match(r'(\d.+) \+.+', line)
+            total_reads = int(match_number.group(1))
+
+        target_reads = 15000000 # 15million reads  by default, set up in the config.yaml file
+        if total_reads > target_reads:
+            down_rate = target_reads/total_reads
+        else:
+            down_rate = 1
+
+        shell("sambamba view -f bam -t 5 --subsampling-seed=3 -s {rate} {inbam} | samtools sort -m 2G -@ 5 -T {outbam}.tmp > {outbam} 2> {log}".format(rate = down_rate, inbam = input[0], outbam = output[0], log = log))
+
+        shell("samtools index {outbam}".format(outbam = output[0]))
+
+EOM
+
+snakemake --snakefile ${sample}.downsample.snakefile
+end
+

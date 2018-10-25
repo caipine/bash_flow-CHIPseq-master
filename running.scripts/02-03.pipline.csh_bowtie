@@ -1,0 +1,26 @@
+#!/bin/csh -f
+
+source 00.source.txt
+
+echo "workingdir" $main 
+
+cd  ${main}/running.scripts
+
+foreach sample ("`cat sample.list`")
+echo $sample
+cat <<EOM > "${sample}.bowtie.run.sh"
+
+#bowtie
+bowtie --chunkmbs 320 -m 1 --best -p $cpu_num ${main}/ht38/ht38 -q ${main}/fastqs/${sample}.fastq.gz -S 2> ${main}/00.log/${sample}.bowtie.log \
+| samblaster --removeDups \
+| samtools view -Sb -F 4 - \
+| samtools sort -m 2G -@ 5 -T ${main}/03.aln/${sample}.sorted.bam.tmp -o ${main}/03.aln/${sample}.sorted.bam 2> ${main}/00.log/${sample}.markdup.log
+
+#######new
+
+EOM
+
+bash ${sample}.bowtie.run.sh
+end
+
+

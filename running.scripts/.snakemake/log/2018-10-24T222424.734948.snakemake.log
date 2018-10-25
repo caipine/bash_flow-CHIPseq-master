@@ -1,0 +1,32 @@
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 1
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	call_peaks_macs1
+	1
+
+[Wed Oct 24 22:24:24 2018]
+Job 0: call_peaks macs14 /home/exx/Documents/bash_flow-CHIPseq-master/04.aln_downsample/SRR2518124-downsample.sorted.bam /home/exx/Documents/bash_flow-CHIPseq-master/04.aln_downsample/SRR2518123-downsample.sorted.bam: 1 threads
+
+[Wed Oct 24 22:24:25 2018]
+Error in rule call_peaks_macs1:
+    jobid: 0
+    output: /home/exx/Documents/bash_flow-CHIPseq-master/08.peak_macs1/SRR2518123_vs_SRR2518124_macs1_peaks.bed, /home/exx/Documents/bash_flow-CHIPseq-master/08.peak_macs1/SRR2518123_vs_SRR2518124_macs1_nomodel_peaks.bed
+    log: /home/exx/Documents/bash_flow-CHIPseq-master/00.log/SRR2518123_vs_SRR2518124_call_peaks_macs1.log, /home/exx/Documents/bash_flow-CHIPseq-master/00.log/SRR2518123_vs_SRR2518124_call_peaks_macs1_nomodel.log
+
+RuleException:
+CalledProcessError in line 15 of /home/exx/Documents/bash_flow-CHIPseq-master/running.scripts/snakemake_call_peaks.snakefile_23-24:
+Command ' set -euo pipefail;  
+	   source activate root
+        macs14 -t /home/exx/Documents/bash_flow-CHIPseq-master/04.aln_downsample/SRR2518123-downsample.sorted.bam             -c /home/exx/Documents/bash_flow-CHIPseq-master/04.aln_downsample/SRR2518124-downsample.sorted.bam --keep-dup all -f BAM -g hs             --outdir /home/exx/Documents/bash_flow-CHIPseq-master/08.peak_macs1 -n SRR2518123_vs_SRR2518124_macs1 -p 1e-5 &> /home/exx/Documents/bash_flow-CHIPseq-master/00.log/SRR2518123_vs_SRR2518124_call_peaks_macs1.log
+
+        # nomodel for macs14, shift-size will be 100 bp (e.g. fragment length of 200bp)
+        # can get fragment length from the phantompeakqual. Now set it to 200 bp for all.
+        macs14 -t /home/exx/Documents/bash_flow-CHIPseq-master/04.aln_downsample/SRR2518123-downsample.sorted.bam             -c /home/exx/Documents/bash_flow-CHIPseq-master/04.aln_downsample/SRR2518124-downsample.sorted.bam --keep-dup all -f BAM -g hs             -n SRR2518123_vs_SRR2518124_macs1_nomodel --nomodel -p 1e-5 &> /home/exx/Documents/bash_flow-CHIPseq-master/00.log/SRR2518123_vs_SRR2518124_call_peaks_macs1_nomodel.log ' returned non-zero exit status 2.
+  File "/home/exx/Documents/bash_flow-CHIPseq-master/running.scripts/snakemake_call_peaks.snakefile_23-24", line 15, in __rule_call_peaks_macs1
+  File "/root/miniconda3/lib/python3.6/concurrent/futures/thread.py", line 56, in run
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: /home/exx/Documents/bash_flow-CHIPseq-master/running.scripts/.snakemake/log/2018-10-24T222424.734948.snakemake.log

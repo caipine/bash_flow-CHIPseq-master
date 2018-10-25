@@ -11,7 +11,7 @@ echo $sample
 cat <<EOM > "${sample}.bowtie.run.sh"
 
 #fastqc
-fastqc -o ${main}/02.fqc -f fastq --noextract ${main}/fastqs/${sample}.fastq.gz  > ${main}/00.log/${sample}.fastqc.log
+fastqc -o ${main}/02.fqc -f fastq --noextract ${main}/fastqs/${sample}.fastq.gz  > ${main}/01.log/${sample}.fastqc.log
 
 #######new
 

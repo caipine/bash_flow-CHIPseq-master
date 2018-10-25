@@ -1,0 +1,31 @@
+#!/bin/csh -f
+
+source 00.source.txt
+
+echo "workingdir" $main 
+
+cd  ${main}/running.scripts
+
+foreach sample ("`cat sample.list`")
+echo $sample
+cat <<EOM > "${sample}.bigwigs.snakefile"
+
+rule make_bigwigs:
+    input : "$main/04.aln_downsample/${sample}-downsample.sorted.bam", "$main/04.aln_downsample/${sample}-downsample.sorted.bam.bai"
+    output: "$main/07.bigwig/${sample}.bw"
+    log: "$main/00.log/${sample}.makebw"
+    threads: 5
+    params: jobname = "${sample}"
+    message: "making bigwig for {input}"
+    shell:
+        """
+    source activate root
+        bamCoverage -b {input[0]} --normalizeUsing RPKM --binSize 30 --smoothLength 300 -p 5 --extendReads 200 -o {output} 2> {log}
+        """
+
+
+EOM
+
+snakemake --snakefile ${sample}.bigwigs.snakefile
+end
+
